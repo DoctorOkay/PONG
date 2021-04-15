@@ -236,8 +236,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fdef87fa730fae43ab31c8055914b1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ballSpeed: 10
-  playerPaddle: {fileID: 2142924311}
+  ballSpeed: 5
 --- !u!212 &1429361450
 SpriteRenderer:
   m_ObjectHideFlags: 0
