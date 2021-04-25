@@ -1,46 +1,51 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Paddle : MonoBehaviour
 {
-    [SerializeField] float paddleSpeed = 10f;
-    [SerializeField] float cameraHeight = 4f;
+    [SerializeField] float speed;
+    [SerializeField] bool isPlayer;
+    [SerializeField] Text scoreText;
 
-    SpriteRenderer paddleSprite;
+    // properties
+    public int score
+    {
+        get;
+        set;
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        paddleSprite = GetComponent<SpriteRenderer>();
-    }   
+        score = 0;
+        scoreText.text = score.ToString();
+    }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         MovePaddle();
+        scoreText.text = score.ToString();
     }
-    private void MovePaddle()
+
+    void MovePaddle()
     {
-        Vector2 paddlePos = new Vector2();
-        Vector3 spriteBounds = paddleSprite.sprite.bounds.size;
+        Vector3 velocity = new Vector3(0, speed);
 
-        float maxPaddle_Y = cameraHeight - spriteBounds.y;
-        float minPaddle_Y = -cameraHeight + spriteBounds.y;
-        float scaledPaddleSpeed = paddleSpeed * Time.deltaTime;
-
-        paddlePos.x = transform.position.x;
-        paddlePos.y = transform.position.y;
-
-        if (Input.GetKey(KeyCode.UpArrow))
+        if (isPlayer)
         {
-            paddlePos.y = Mathf.Clamp((paddlePos.y + scaledPaddleSpeed), minPaddle_Y, maxPaddle_Y);
+            if (Input.GetKey(KeyCode.W))
+            {
+                // move up
+                transform.Translate(velocity * Time.fixedDeltaTime);
+            }
+            if (Input.GetKey(KeyCode.S))
+            {
+                // move down
+                transform.Translate(-velocity * Time.fixedDeltaTime);
+            }
         }
-        else if (Input.GetKey(KeyCode.DownArrow))
-        {
-            paddlePos.y = Mathf.Clamp((paddlePos.y - scaledPaddleSpeed), minPaddle_Y, maxPaddle_Y);
-        }
-
-        transform.position = paddlePos;
     }
 }
